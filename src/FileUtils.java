@@ -123,6 +123,7 @@ public class FileUtils {
             e.printStackTrace();
         } finally {
             try {
+                assert reader != null;
                 reader.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -219,6 +220,61 @@ public class FileUtils {
             return NOTES_PATH + content + "_new file.txt";
         }
         return NOTES_PATH + System.currentTimeMillis() + "_new file.txt";
+    }
+
+    /**
+     * This method is used to edit a file
+     * @param file is the wanted file
+     * @param content is what we wanna add to our file.
+     */
+    public void editFile(File file,String content)
+    {
+        String result = "";
+
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String newLine;
+            while ((newLine = reader.readLine()) != null) {
+                result = result.concat(newLine);
+            }
+            System.out.println(result);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                assert reader != null;
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        result = result.concat(content);
+
+        BufferedWriter writer = null;
+        try
+        {
+            //File file = new File(fileName);
+            writer = new BufferedWriter(new FileWriter(file));
+            writer.write(result);
+            writer.newLine();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                writer.flush();
+                writer.close();
+            }
+            catch(IOException e){
+                e.printStackTrace();
+            }
+        }
     }
 
 }
